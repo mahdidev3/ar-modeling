@@ -1,39 +1,38 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WebXR AR Demo</title>
-    <style>
-        body {
-            margin: 0;
-            overflow: hidden;
-        }
-
-        #enter-ar {
-            position: absolute;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            padding: 10px 20px;
-            font-size: 16px;
-            background: #000;
-            color: #fff;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-            z-index: 999;
-        }
-    </style>
+    <title>Three.js GLTF Loader Example</title>
 </head>
-
 <body>
-    <button id="enter-ar">Enter AR</button>
-    <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r126/three.min.js"></script>
     <script src="https://unpkg.com/three@0.126.0/examples/js/loaders/GLTFLoader.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/webxr/ARButton.js"></script>
-    <script src="script.js"></script>
-</body>
+    <script>
+        // Your Three.js and GLTFLoader code goes here
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        document.body.appendChild(renderer.domElement);
 
+        const loader = new THREE.GLTFLoader();
+        loader.load(
+            'path/to/your/model.gltf', // Replace with the actual path to your GLTF model
+            function (gltf) {
+                scene.add(gltf.scene);
+            },
+            undefined, // onProgress callback (optional)
+            function (error) {
+                console.error('An error occurred while loading the GLTF model:', error);
+            }
+        );
+
+        camera.position.z = 5;
+
+        function animate() {
+            requestAnimationFrame(animate);
+            renderer.render(scene, camera);
+        }
+        animate();
+    </script>
+</body>
 </html>
